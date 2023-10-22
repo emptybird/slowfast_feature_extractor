@@ -133,7 +133,7 @@ def test(cfg):
                 continue
 
         out_path = os.path.join(cfg.OUTPUT_DIR, os.path.split(vid)[0])
-        out_file = vid_id.split(".")[0] + "_{}.npy".format(cfg.DATA.NUM_FRAMES)
+        out_file = vid_id.split(".")[0] + ".npy"
         if os.path.exists(os.path.join(out_path, out_file)):
             print("{}. {} already exists".format(vid_no, out_file))
             print("----------------------------------------------------------")
