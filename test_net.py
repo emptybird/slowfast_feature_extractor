@@ -117,6 +117,7 @@ def test(cfg):
         # Create video testing loaders.
         path_to_vid = os.path.join(vid_root, os.path.split(vid)[0])
         vid_id = os.path.split(vid)[1]
+        vid_id = vid_id.replace("SPACE", " ")
 
         if cfg.DATA.READ_VID_FILE:
             try:

@@ -1,23 +1,21 @@
 TRAIN:
   ENABLE: False
   DATASET: videoset
-  CHECKPOINT_FILE_PATH: "path/to/checkpoint"
+  CHECKPOINT_FILE_PATH: "/data/tiktokCrawler/video_feat_extract/slowfast_feature_extractor-master/SLOWFAST_8x8_R50.pkl"
   CHECKPOINT_TYPE: caffe2
 DATA:
-  PATH_TO_DATA_DIR: "/path/to/dataset"
+  PATH_TO_DATA_DIR: "/data/tiktokCrawler/videos_to_frames"
   PATH_PREFIX: ""
-  NUM_FRAMES: 32
+  NUM_FRAMES: 16
   SAMPLING_RATE: 2
   TRAIN_JITTER_SCALES: [256, 320]
-  TRAIN_CROP_SIZE: 224
-  TEST_CROP_SIZE: 256
   INPUT_CHANNEL_NUM: [3, 3]
-  IN_FPS: 60
-  OUT_FPS: 60
-  READ_VID_FILE: True
+  IN_FPS: 10
+  OUT_FPS: 10
+  READ_VID_FILE: False
   VID_FILE_EXT: ".MP4"
   IMG_FILE_EXT: ".jpg"
-  IMG_FILE_FORMAT: "frame_{:010d}.jpg"
+  IMG_FILE_FORMAT: "{:06d}.jpg"
   SAMPLE_SIZE: [256, 256]
 SLOWFAST:
   ALPHA: 4
@@ -65,7 +63,7 @@ DATA_LOADER:
   PIN_MEMORY: True
 DETECTION:
   ENABLE: False
-NUM_GPUS: 1
+NUM_GPUS: 0
 NUM_SHARDS: 1
 RNG_SEED: 0
-OUTPUT_DIR: "path/to/output/features"
+OUTPUT_DIR: "/data/tiktokCrawler/video_feat_extract/slowfast_features"

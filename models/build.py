@@ -58,13 +58,13 @@ def build_model(cfg):
             else [
                 [
                     cfg.DATA.NUM_FRAMES // cfg.SLOWFAST.ALPHA // pool_size[0][0],
-                    cfg.DATA.CROP_SIZE // 32 // pool_size[0][1],
-                    cfg.DATA.CROP_SIZE // 32 // pool_size[0][2],
+                    256 // 32 // pool_size[0][1],
+                    256 // 32 // pool_size[0][2],
                 ],
                 [
                     cfg.DATA.NUM_FRAMES // pool_size[1][0],
-                    cfg.DATA.CROP_SIZE // 32 // pool_size[1][1],
-                    cfg.DATA.CROP_SIZE // 32 // pool_size[1][2],
+                    256 // 32 // pool_size[1][1],
+                    256 // 32 // pool_size[1][2],
                 ],
             ],  # None for AdaptiveAvgPool3d((1, 1, 1))
             dropout_rate=cfg.MODEL.DROPOUT_RATE,
