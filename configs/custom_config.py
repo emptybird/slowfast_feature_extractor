@@ -29,6 +29,11 @@ defcfg._C.DATA.IMG_FILE_FORMAT = "frame_{:010d}.jpg"
 # Sampling height and width of each frame
 defcfg._C.DATA.SAMPLE_SIZE = [256, 256]
 
+def get_cfg():
+    """
+    Get a copy of the default config.
+    """
+    return defcfg.assert_and_infer_cfg(defcfg._C.clone())
 
 def load_config(args):
     """
