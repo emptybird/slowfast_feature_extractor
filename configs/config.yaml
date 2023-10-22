@@ -1,6 +1,6 @@
 TRAIN:
   # checkpoint file
-  CHECKPOINT_FILE_PATH: "/data/tiktokCrawler/video_feat_extract/slowfast_feature_extractor-master/SLOWFAST_8x8_R50.pkl"
+  CHECKPOINT_FILE_PATH: "/data/tiktokCrawler/video_feat_extract/slowfast_feature_extractor/SLOWFAST_8x8_R50.pkl"
   # set this to pytorch or caffe2 depending on your checkpoint configuration
   # the default pre-trained weights from PySlowFast Model Zoo are in caffe2 format
   CHECKPOINT_TYPE: caffe2
