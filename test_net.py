@@ -131,6 +131,7 @@ def test(cfg):
                 print("----------------------------------------------------------")
                 rejected_vids.append(vid)
                 continue
+            out_file = vid_id.split(".")[0] + ".npy"
         else:
             # check if the video is readable
             path_to_frames = os.path.join(path_to_vid, vid_id)
@@ -138,9 +139,8 @@ def test(cfg):
                 print("{} does not exist".format(vid))
                 print("----------------------------------------------------------")
                 continue
-
+            out_file = vid_id + ".npy"
         out_path = os.path.join(cfg.OUTPUT_DIR, os.path.split(vid)[0])
-        out_file = vid_id.split(".")[0] + ".npy"
         if os.path.exists(os.path.join(out_path, out_file)):
             print("{}. {} already exists".format(vid_no, out_file))
             print("----------------------------------------------------------")
