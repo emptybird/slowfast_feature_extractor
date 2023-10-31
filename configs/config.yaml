@@ -10,11 +10,11 @@ DATA:
   # Path prefix for each video or subdirectory where extracted frames are kept
   PATH_PREFIX: ""
   # size of sampled window centered on each frame
-  NUM_FRAMES: 16
+  NUM_FRAMES: 32
   # original fps of input video
   IN_FPS: 10
   # fps value to sample videos at
-  OUT_FPS: 10
+#  OUT_FPS: 10
   # Flag to turn on/off processing frames from video files. If False, it will try to read extracted image frames.
   READ_VID_FILE: False
   # File extension of video files (case-sensitive). Set this if you want to read the video files.
@@ -25,6 +25,7 @@ DATA:
   IMG_FILE_FORMAT: "{:06d}.jpg"
   # Sampling height and width of each extracted frame. This can be a list or int value
   SAMPLE_SIZE: [256, 256]
+  STRIDE: 16
 
 RESNET:
   ZERO_INIT_FINAL_BN: True

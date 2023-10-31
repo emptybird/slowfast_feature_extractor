@@ -46,11 +46,12 @@ class VideoSet(torch.utils.data.Dataset):
         self.vid_id = vid_id
         self.read_vid_file = read_vid_file
 
-        self.in_fps = cfg.DATA.IN_FPS
-        self.out_fps = cfg.DATA.OUT_FPS
-        self.step_size = int(self.in_fps / self.out_fps)
+        # self.in_fps = cfg.DATA.IN_FPS
+        # self.out_fps = cfg.DATA.OUT_FPS
+        # self.step_size = int(self.in_fps / self.out_fps)
 
-        self.out_size = cfg.DATA.NUM_FRAMES
+        self.out_size = cfg.DATA.NUM_FRAMES # window size
+        self.stride = cfg.DATA.STRIDE # sliding window stride
 
         if isinstance(cfg.DATA.SAMPLE_SIZE, list):
             self.sample_width, self.sample_height = cfg.DATA.SAMPLE_SIZE
@@ -187,25 +188,36 @@ class VideoSet(torch.utils.data.Dataset):
             )
         ).float()
 
-        start = int(index - self.step_size * self.out_size / 2)
-        end = int(index + self.step_size * self.out_size / 2)
-        max_ind = self.__len__() - 1
+        # start = int(index * self.stride - self.out_size / 2)
+        # end = int(index * self.stride + self.out_size / 2)
+        start = index * self.stride
+        end = index * self.stride + self.out_size
+        max_ind = self._get_frames_len() - 1
 
-        for out_ind, ind in enumerate(range(start, end, self.step_size)):
-            if ind < 0 or ind > max_ind:
-                continue
+        for out_ind, ind in enumerate(range(start, end)):
+            # if ind < 0 or ind > max_ind:
+            #     continue
+            if ind > max_ind:
+                # repeat the last frame
+                ind = max_ind
+
+            if self.read_vid_file:
+                frame_seg[:, out_ind, :, :] = self.frames[:, ind, :, :]
             else:
-                if self.read_vid_file:
-                    frame_seg[:, out_ind, :, :] = self.frames[:, ind, :, :]
-                else:
-                    frame_seg[:, out_ind, :, :] = self._read_img_file(
-                        os.path.join(self.vid_path, self.vid_id), self.frames[ind]
-                    )
+                frame_seg[:, out_ind, :, :] = self._read_img_file(
+                    os.path.join(self.vid_path, self.vid_id), self.frames[ind]
+                )
 
         # create the pathways
         frame_list = pack_pathway_output(self.cfg, frame_seg)
 
         return frame_list
+
+    def _get_frames_len(self):
+        if self.read_vid_file:
+            return self.frames.shape[1]
+        else:
+            return len(self.frames)
 
     def __len__(self):
         """
@@ -213,7 +225,14 @@ class VideoSet(torch.utils.data.Dataset):
             (int): the number of frames in the video.
         """
         # return self.video_container.streams.video[0].frames
-        if self.read_vid_file:
-            return self.frames.shape[1]
-        else:
-            return len(self.frames)
+        # if self.read_vid_file:
+        #     return self.frames.shape[1]
+        # else:
+        #     return len(self.frames)
+
+        total_frames = len(self.frames) if not self.read_vid_file else self.frames.shape[1]
+        # Ensure the total_frames is more than the size of the window
+        if total_frames < self.out_size:
+            return 0
+        # Calculate the number of positions the window can slide
+        return (total_frames - self.out_size) // self.stride + 1
