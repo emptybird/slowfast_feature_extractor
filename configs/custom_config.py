@@ -9,7 +9,7 @@ import slowfast.utils.checkpoint as cu
 # -----------------------------------------------------------------------------
 
 # Fps of the input video
-# defcfg._C.DATA.IN_FPS = 60
+defcfg._C.DATA.IN_FPS = 30
 
 # Fps to sample the frames for output
 # defcfg._C.DATA.OUT_FPS = 30
