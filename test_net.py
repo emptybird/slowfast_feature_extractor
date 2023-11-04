@@ -113,6 +113,7 @@ def test(cfg):
     print("----------------------------------------------------------")
 
     start_time = time.time()
+    not_existed_vid = []
     for vid_no, vid in enumerate(videos):
         # Create video testing loaders.
         path_to_vid = os.path.join(vid_root, os.path.split(vid)[0])
@@ -136,7 +137,8 @@ def test(cfg):
             # check if the video is readable
             path_to_frames = os.path.join(path_to_vid, vid_id)
             if not os.path.exists(path_to_frames):
-                print("{} does not exist".format(vid))
+                print("{} does not exist".format(vid_id))
+                not_existed_vid.append(vid_id)
                 print("----------------------------------------------------------")
                 continue
             out_file = vid_id + ".npy"
@@ -179,4 +181,6 @@ def test(cfg):
             hours, minutes, seconds
         )
     )
+    print("Videos Count: {}, not existed: {}".format(len(videos), len(not_existed_vid)))
+    print("Not Existed Videos: {}".format(not_existed_vid))
     print("----------------------------------------------------------")
